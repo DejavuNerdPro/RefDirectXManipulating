@@ -1,0 +1,41 @@
+﻿@page "/"
+@using Entities;
+@using Data;
+@inject IProductService productService;
+
+<h3>All Product Component</h3>
+<table class="table-responsive">
+    <thead>
+    <tr >
+        <th scope="col">ID</th>
+        <th scope="col">NAME</th>
+        <th scope="col">PRICE</th>
+        <th scope="col">DISCOUNT</th>
+        <th scope="col">OPERATION</th>
+    </tr>
+        </thead>
+    <tbody>
+
+@foreach (var product in products)
+{
+    <tr>
+    <td>@product.Pid</td>
+    <td>@product.Name</td>
+    <td>@product.Price %</td>
+    <td>@product.Discount</td>
+    <td><a href="">Edit</a>&nbsp;&nbsp;<a href="">Delete</a></td>
+        </tr>
+}
+</tbody>
+</table>
+
+@code {
+
+    private List<Product> products = new List<Product>();
+
+    protected override void OnInitialized()
+    {
+        products = productService.getAllproducts();
+    }
+
+}

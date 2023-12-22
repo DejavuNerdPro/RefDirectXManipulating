@@ -6,10 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RefDirecXManipulate.Data;
+using RefDirecXManipulate.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace RefDirecXManipulate
 {
@@ -29,6 +31,9 @@ namespace RefDirecXManipulate
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<Product>();
+            services.AddDbContext<DataContext>(options =>options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IProductService,ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

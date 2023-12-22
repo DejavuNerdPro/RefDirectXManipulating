@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Ref Directive Manipulating\\RefDirecXManipulate\\RefDirecXManipulate.csproj": {}
+    "D:\\Ref Directive Manipulating\\RefDirectXManipulating\\RefDirecXManipulate.csproj": {}
   },
   "projects": {
-    "D:\\Ref Directive Manipulating\\RefDirecXManipulate\\RefDirecXManipulate.csproj": {
+    "D:\\Ref Directive Manipulating\\RefDirectXManipulating\\RefDirecXManipulate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Ref Directive Manipulating\\RefDirecXManipulate\\RefDirecXManipulate.csproj",
+        "projectUniqueName": "D:\\Ref Directive Manipulating\\RefDirectXManipulating\\RefDirecXManipulate.csproj",
         "projectName": "RefDirecXManipulate",
-        "projectPath": "D:\\Ref Directive Manipulating\\RefDirecXManipulate\\RefDirecXManipulate.csproj",
+        "projectPath": "D:\\Ref Directive Manipulating\\RefDirectXManipulating\\RefDirecXManipulate.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "D:\\Ref Directive Manipulating\\RefDirecXManipulate\\obj\\",
+        "outputPath": "D:\\Ref Directive Manipulating\\RefDirectXManipulating\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,18 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

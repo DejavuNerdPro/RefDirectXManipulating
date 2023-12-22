@@ -13,70 +13,70 @@ namespace RefDirecXManipulate.Shared
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 1 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 2 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 3 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 4 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 5 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 6 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 7 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 8 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 9 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using RefDirecXManipulate;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "D:\Ref Directive Manipulating\RefDirecXManipulate\_Imports.razor"
+#line 10 "D:\Ref Directive Manipulating\RefDirectXManipulating\_Imports.razor"
 using RefDirecXManipulate.Shared;
 
 #line default
@@ -90,7 +90,7 @@ using RefDirecXManipulate.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "D:\Ref Directive Manipulating\RefDirecXManipulate\Shared\SurveyPrompt.razor"
+#line 12 "D:\Ref Directive Manipulating\RefDirectXManipulating\Shared\SurveyPrompt.razor"
        
     // Demonstrates how a parent component can supply parameters
     [Parameter]
