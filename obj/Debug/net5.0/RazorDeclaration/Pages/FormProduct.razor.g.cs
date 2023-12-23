@@ -83,21 +83,22 @@ using RefDirecXManipulate.Shared;
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\AllProductsComponent.razor"
+#line 6 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
 using Entities;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\AllProductsComponent.razor"
+#line 7 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
 using Data;
 
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class AllProductsComponent : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/formProduct")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/formProduct/{id}")]
+    public partial class FormProduct<T> : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -105,29 +106,44 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 34 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\AllProductsComponent.razor"
+#line 36 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
        
-    private List<Product> products = new List<Product>();
+    [Parameter]
+    public T IInstance{ get; set; } = Activator.CreateInstance<T>();
 
-    protected override void OnInitialized()
+    [Parameter]
+    public string id { get; set; }
+
+    private void Create()
     {
-        products = productService.getAllproducts();
+        Product product = new Product() {
+            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
+            Name= (string)typeof(T).GetProperty("Name").GetValue(IInstance),
+            Price=(decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
+            Discount=(decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+        };
+
+        productService.addProduct(product);
+
     }
 
-    private void createProduct()
-    {
-        navigationManager.NavigateTo("/productForm");
-    }
-
-    private void deleteProduct(int id)
+    private void Update()
     {
         Product product = new Product()
         {
-            Pid = id
+            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
+            Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance),
+            Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
+            Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
         };
-        int result = productService.removeProduct(product);
+
+        productService.updateProduct(product);
     }
 
+    private void Cancel()
+    {
+        navigationManager.NavigateTo("/");
+    }
 
 #line default
 #line hidden

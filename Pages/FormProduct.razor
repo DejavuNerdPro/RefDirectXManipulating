@@ -1,0 +1,73 @@
+﻿@page "/formProduct"
+@page "/formProduct/{id}"
+
+@typeparam T 
+@inject NavigationManager navigationManager;
+@using Entities;
+@using Data;
+@inject IProductService productService;
+
+<h3>FormProduct</h3>
+<table>
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <td><input @bind-value="@typeof(T).GetProperty("Name").GetValue(IInstance)"/></td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td><input @bind-value="@typeof(T).GetProperty("Price").GetValue(IInstance)"/></td>
+        </tr>
+        <tr>
+            <th>Discount</th>
+            <td><input @bind-value="@typeof(T).GetProperty("Discount").GetValue(IInstance)"/></td>
+        </tr>
+        <tr>
+            <td>
+                @if (@id == null) { <button @onclick="Create">Create</button>} else { <button @onclick="Update">Modify</button>}
+            </td>
+            <td>
+                <button @onclick="Cancel">Cancel</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public T IInstance{ get; set; } = Activator.CreateInstance<T>();
+
+    [Parameter]
+    public string id { get; set; }
+
+    private void Create()
+    {
+        Product product = new Product() {
+            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
+            Name= (string)typeof(T).GetProperty("Name").GetValue(IInstance),
+            Price=(decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
+            Discount=(decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+        };
+
+        productService.addProduct(product);
+
+    }
+
+    private void Update()
+    {
+        Product product = new Product()
+        {
+            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
+            Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance),
+            Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
+            Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+        };
+
+        productService.updateProduct(product);
+    }
+
+    private void Cancel()
+    {
+        navigationManager.NavigateTo("/");
+    }
+}

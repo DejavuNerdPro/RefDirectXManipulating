@@ -1,9 +1,11 @@
 ﻿@page "/"
 @using Entities;
 @using Data;
+@inject NavigationManager navigationManager;
 @inject IProductService productService;
 
 <h3>All Product Component</h3>
+<button @onclick="createProduct">CREATE</button>
 <table class="table-responsive">
     <thead>
     <tr >
@@ -23,19 +25,32 @@
     <td>@product.Name</td>
     <td>@product.Price %</td>
     <td>@product.Discount</td>
-    <td><a href="">Edit</a>&nbsp;&nbsp;<a href="">Delete</a></td>
+    <td><a href="/formProduct/@product.Pid">Edit</a>&nbsp;|&nbsp;<a href="#" @onclick="() => deleteProduct(product.Pid)">Delete</a></td>
         </tr>
 }
 </tbody>
 </table>
 
 @code {
-
     private List<Product> products = new List<Product>();
 
     protected override void OnInitialized()
     {
         products = productService.getAllproducts();
+    }
+
+    private void createProduct()
+    {
+        navigationManager.NavigateTo("/productForm");
+    }
+
+    private void deleteProduct(int id)
+    {
+        Product product = new Product()
+        {
+            Pid = id
+        };
+        int result = productService.removeProduct(product);
     }
 
 }
