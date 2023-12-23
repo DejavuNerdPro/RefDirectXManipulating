@@ -31,9 +31,8 @@ namespace RefDirecXManipulate
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddSingleton<Product>();
-            services.AddDbContext<DataContext>(options =>options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IProductService,ProductService>();
+            services.AddDbContext<DataContext>(options => { options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")); },ServiceLifetime.Singleton);
+            services.AddSingleton<IProductService,ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

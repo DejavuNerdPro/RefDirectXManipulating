@@ -1,7 +1,7 @@
 ﻿@page "/productForm"
 @page "/productForm/{id}"
 
-@typeparam T 
+@*@typeparam T *@
 @inject NavigationManager navigationManager;
 @using Entities;
 @using Data;
@@ -36,8 +36,8 @@
         </tr>
         <tr>
             <td>
-                @if (@id == null)
-                {<button @onclick="Create">Create</button>}
+                @if (string.IsNullOrEmpty(Id))
+                {@Id  <button @onclick="Create">Create</button>}
                 else
                 { <button @onclick="Update">Modify</button>}
             </td>
@@ -49,57 +49,77 @@
 </table>
 
 @code {
-    [Parameter]
-    public T IInstance{ get; set; } = Activator.CreateInstance<T>();
+    @*[Parameter]
+    public T IInstance{ get; set; } = Activator.CreateInstance<T>();*@
+[Parameter]
+public Product product { get; set; }
 
-    [Parameter]
-    public string id { get; set; }
+[Parameter]
+public string Id { get; set; }
 
-    private string Name { get; set; }
-    private decimal Price { get; set; }
-    private decimal Discount { get; set; }
+private string Name { get; set; }
+private decimal Price { get; set; }
+private decimal Discount { get; set; }
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+protected override void OnInitialized()
+{
+    base.OnInitialized();
 
-        Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance);
+
+
+@*Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance);
         Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance);
-        Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance);
-    }
-
-    private void Create()
+        Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance);*@      
+    if (product != null)
     {
-        //get the lastest id in server
-        List<Product>productList=productService.getAllproducts();
-        var Pid = productList.Max(p=>p.Pid);
-
-        Product product = new Product() {
-            Pid = Pid,
-            Name= Name,
-            Price=Price,
-            Discount=Discount
-        };
-
-        productService.addProduct(product);
-
+        Name = product.Name;
+        Price = product.Price;
+        Discount = product.Discount;
     }
-
-    private void Update()
+    if (Id != null)
     {
-        Product product = new Product()
-        {
-            Pid = int.Parse(id),
-            Name = Name,
-            Price = Price,
-            Discount = Discount
-        };
-
-        productService.updateProduct(product);
+        Product product = productService.findById(int.Parse(Id));
+        Name = product.Name;
+        Price = product.Price;
+        Discount = product.Discount;
     }
 
-    private void Cancel()
+}
+
+private void Create()
+{
+    //get the lastest id in server
+    List<Product>productList=productService.getAllproducts();
+    var Pid = productList.Max(p=>p.Pid)+1;
+
+    Product product = new Product() {
+        Pid = Pid,
+        Name= Name,
+        Price=Price,
+        Discount=Discount
+    };
+
+    productService.addProduct(product);
+
+    navigationManager.NavigateTo("/");
+
+}
+
+private void Update()
+{
+    Product product = new Product()
     {
-        navigationManager.NavigateTo("/");
-    }
+        Pid = int.Parse(Id),
+        Name = Name,
+        Price = Price,
+        Discount = Discount
+    };
+
+    productService.updateProduct(product);
+}
+
+private void Cancel()
+{
+    navigationManager.NavigateTo("/");
+}
 }

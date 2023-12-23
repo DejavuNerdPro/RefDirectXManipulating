@@ -24,7 +24,7 @@
     <td>@product.Pid</td>
     <td>@product.Name</td>
     <td>@product.Price %</td>
-    <td>@product.Discount</td>
+    <td>@product.Discount %</td>
     <td><a href="/formProduct/@product.Pid">Edit</a>&nbsp;|&nbsp;<a href="#" @onclick="() => deleteProduct(product.Pid)">Delete</a></td>
         </tr>
 }
@@ -55,6 +55,7 @@
             Pid = id
         };
         int result = productService.removeProduct(product);
+        navigationManager.NavigateTo("/",forceLoad:true);
     }
 
 }

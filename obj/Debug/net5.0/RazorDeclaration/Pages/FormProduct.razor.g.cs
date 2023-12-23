@@ -98,7 +98,7 @@ using Data;
 #nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/productForm")]
     [Microsoft.AspNetCore.Components.RouteAttribute("/productForm/{id}")]
-    public partial class FormProduct<T> : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class FormProduct : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -106,61 +106,83 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 51 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
-       
-    [Parameter]
-    public T IInstance{ get; set; } = Activator.CreateInstance<T>();
+#line 53 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
+                                                                      
+[Parameter]
+public Product product { get; set; }
 
-    [Parameter]
-    public string id { get; set; }
+[Parameter]
+public string Id { get; set; }
 
-    private string Name { get; set; }
-    private decimal Price { get; set; }
-    private decimal Discount { get; set; }
+private string Name { get; set; }
+private decimal Price { get; set; }
+private decimal Discount { get; set; }
 
-    protected override void OnInitialized()
+protected override void OnInitialized()
+{
+    base.OnInitialized();
+
+
+
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 72 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
+                                                                                          
+    if (product != null)
     {
-        base.OnInitialized();
-
-        Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance);
-        Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance);
-        Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance);
+        Name = product.Name;
+        Price = product.Price;
+        Discount = product.Discount;
+    }
+    if (Id != null)
+    {
+        Product product = productService.findById(int.Parse(Id));
+        Name = product.Name;
+        Price = product.Price;
+        Discount = product.Discount;
     }
 
-    private void Create()
+}
+
+private void Create()
+{
+    //get the lastest id in server
+    List<Product>productList=productService.getAllproducts();
+    var Pid = productList.Max(p=>p.Pid)+1;
+
+    Product product = new Product() {
+        Pid = Pid,
+        Name= Name,
+        Price=Price,
+        Discount=Discount
+    };
+
+    productService.addProduct(product);
+
+    navigationManager.NavigateTo("/");
+
+}
+
+private void Update()
+{
+    Product product = new Product()
     {
-        //get the lastest id in server
-        List<Product>productList=productService.getAllproducts();
-        var Pid = productList.Max(p=>p.Pid);
+        Pid = int.Parse(Id),
+        Name = Name,
+        Price = Price,
+        Discount = Discount
+    };
 
-        Product product = new Product() {
-            Pid = Pid,
-            Name= Name,
-            Price=Price,
-            Discount=Discount
-        };
+    productService.updateProduct(product);
+}
 
-        productService.addProduct(product);
-
-    }
-
-    private void Update()
-    {
-        Product product = new Product()
-        {
-            Pid = int.Parse(id),
-            Name = Name,
-            Price = Price,
-            Discount = Discount
-        };
-
-        productService.updateProduct(product);
-    }
-
-    private void Cancel()
-    {
-        navigationManager.NavigateTo("/");
-    }
+private void Cancel()
+{
+    navigationManager.NavigateTo("/");
+}
 
 #line default
 #line hidden

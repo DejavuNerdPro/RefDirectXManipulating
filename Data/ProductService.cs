@@ -1,4 +1,5 @@
-﻿using RefDirecXManipulate.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RefDirecXManipulate.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RefDirecXManipulate.Data
 {
-    public class ProductService : IProductService
+    public class ProductService : IProductService,IDisposable
     {
         private readonly DataContext dataContext;
         public ProductService(DataContext context)
@@ -26,7 +27,18 @@ namespace RefDirecXManipulate.Data
 
         public int removeProduct(Product product)
         {
-            dataContext.Product.Remove(product);
+/*            var entry = dataContext.Entry(product);
+
+            Console.WriteLine($"Entity State: {entry.State}");*/
+
+            var existingProduct = dataContext.Product.FirstOrDefault(p => p.Pid == product.Pid);
+
+            if (existingProduct != null)
+            {
+                // Remove the entity
+                dataContext.Product.Remove(existingProduct);
+           
+            }
             return dataContext.SaveChanges();
         }
 
@@ -45,6 +57,16 @@ namespace RefDirecXManipulate.Data
             {
                 return 5;  //product is existing
             }
+        }
+
+        public Product findById(int id)
+        {
+            return dataContext.Find<Product>(id);
+        }
+
+        public void Dispose()
+        {
+            dataContext.Dispose();
         }
     }
 }

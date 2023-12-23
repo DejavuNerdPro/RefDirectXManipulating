@@ -12,5 +12,6 @@ namespace RefDirecXManipulate.Data
         public int addProduct(Product product);
         public int removeProduct(Product product);
         public int updateProduct(Product product);
+        public Product findById(int id);
     }
 }

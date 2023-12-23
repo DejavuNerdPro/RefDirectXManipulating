@@ -15,11 +15,5 @@ namespace RefDirecXManipulate.Data
         }
 
         public DbSet<Product> Product { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Product>().HasNoKey();
-            // Other configurations if needed
-        }
     }
 }

@@ -130,6 +130,7 @@ using Data;
             Pid = id
         };
         int result = productService.removeProduct(product);
+        navigationManager.NavigateTo("/",forceLoad:true);
     }
 
 
