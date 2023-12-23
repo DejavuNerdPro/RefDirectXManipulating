@@ -109,6 +109,10 @@ using Data;
        
     private List<Product> products = new List<Product>();
 
+    public ElementReference createRef;
+
+    public Product product { get; set; }
+
     protected override void OnInitialized()
     {
         products = productService.getAllproducts();
