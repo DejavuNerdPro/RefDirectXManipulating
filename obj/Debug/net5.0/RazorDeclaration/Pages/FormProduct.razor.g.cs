@@ -96,8 +96,8 @@ using Data;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/formProduct")]
-    [Microsoft.AspNetCore.Components.RouteAttribute("/formProduct/{id}")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/productForm")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/productForm/{id}")]
     public partial class FormProduct<T> : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -106,7 +106,7 @@ using Data;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 36 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
+#line 51 "D:\Ref Directive Manipulating\RefDirectXManipulating\Pages\FormProduct.razor"
        
     [Parameter]
     public T IInstance{ get; set; } = Activator.CreateInstance<T>();
@@ -114,13 +114,30 @@ using Data;
     [Parameter]
     public string id { get; set; }
 
+    private string Name { get; set; }
+    private decimal Price { get; set; }
+    private decimal Discount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance);
+        Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance);
+        Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance);
+    }
+
     private void Create()
     {
+        //get the lastest id in server
+        List<Product>productList=productService.getAllproducts();
+        var Pid = productList.Max(p=>p.Pid);
+
         Product product = new Product() {
-            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
-            Name= (string)typeof(T).GetProperty("Name").GetValue(IInstance),
-            Price=(decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
-            Discount=(decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+            Pid = Pid,
+            Name= Name,
+            Price=Price,
+            Discount=Discount
         };
 
         productService.addProduct(product);
@@ -131,10 +148,10 @@ using Data;
     {
         Product product = new Product()
         {
-            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
-            Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance),
-            Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
-            Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+            Pid = int.Parse(id),
+            Name = Name,
+            Price = Price,
+            Discount = Discount
         };
 
         productService.updateProduct(product);

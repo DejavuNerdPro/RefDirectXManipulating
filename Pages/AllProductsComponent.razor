@@ -5,7 +5,7 @@
 @inject IProductService productService;
 
 <h3>All Product Component</h3>
-<button @onclick="createProduct">CREATE</button>
+<button @onclick="createProduct" class="btn btn-outline-primary" @ref="createRef">CREATE</button>
 <table class="table-responsive">
     <thead>
     <tr >
@@ -30,9 +30,13 @@
 }
 </tbody>
 </table>
-
+<FormProduct Product/>
 @code {
     private List<Product> products = new List<Product>();
+
+    public ElementReference createRef;
+
+    public Product product { get; set; }
 
     protected override void OnInitialized()
     {

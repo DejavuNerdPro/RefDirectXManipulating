@@ -1,5 +1,5 @@
-﻿@page "/formProduct"
-@page "/formProduct/{id}"
+﻿@page "/productForm"
+@page "/productForm/{id}"
 
 @typeparam T 
 @inject NavigationManager navigationManager;
@@ -10,21 +10,36 @@
 <h3>FormProduct</h3>
 <table>
     <tbody>
-        <tr>
+        @*<tr>
             <th>Name</th>
-            <td><input @bind-value="@typeof(T).GetProperty("Name").GetValue(IInstance)"/></td>
+            <td><input @bind-value="@(typeof(T).GetProperty("Name").GetValue(IInstance))"/></td>
         </tr>
         <tr>
             <th>Price</th>
-            <td><input @bind-value="@typeof(T).GetProperty("Price").GetValue(IInstance)"/></td>
+            <td><input @bind-value="@(typeof(T).GetProperty("Price").GetValue(IInstance))"/></td>
         </tr>
         <tr>
             <th>Discount</th>
-            <td><input @bind-value="@typeof(T).GetProperty("Discount").GetValue(IInstance)"/></td>
+            <td><input @bind-value="@(typeof(T).GetProperty("Discount").GetValue(IInstance))"/></td>
+        </tr>*@
+        <tr>
+            <th>Name</th>
+            <td><input @bind-value="@Name" /></td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td><input @bind-value="@Price" /></td>
+        </tr>
+        <tr>
+            <th>Discount</th>
+            <td><input @bind-value="@Discount" /></td>
         </tr>
         <tr>
             <td>
-                @if (@id == null) { <button @onclick="Create">Create</button>} else { <button @onclick="Update">Modify</button>}
+                @if (@id == null)
+                {<button @onclick="Create">Create</button>}
+                else
+                { <button @onclick="Update">Modify</button>}
             </td>
             <td>
                 <button @onclick="Cancel">Cancel</button>
@@ -40,13 +55,30 @@
     [Parameter]
     public string id { get; set; }
 
+    private string Name { get; set; }
+    private decimal Price { get; set; }
+    private decimal Discount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance);
+        Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance);
+        Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance);
+    }
+
     private void Create()
     {
+        //get the lastest id in server
+        List<Product>productList=productService.getAllproducts();
+        var Pid = productList.Max(p=>p.Pid);
+
         Product product = new Product() {
-            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
-            Name= (string)typeof(T).GetProperty("Name").GetValue(IInstance),
-            Price=(decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
-            Discount=(decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+            Pid = Pid,
+            Name= Name,
+            Price=Price,
+            Discount=Discount
         };
 
         productService.addProduct(product);
@@ -57,10 +89,10 @@
     {
         Product product = new Product()
         {
-            Pid = (int)typeof(T).GetProperty("Pid").GetValue(IInstance),
-            Name = (string)typeof(T).GetProperty("Name").GetValue(IInstance),
-            Price = (decimal)typeof(T).GetProperty("Price").GetValue(IInstance),
-            Discount = (decimal)typeof(T).GetProperty("Discount").GetValue(IInstance)
+            Pid = int.Parse(id),
+            Name = Name,
+            Price = Price,
+            Discount = Discount
         };
 
         productService.updateProduct(product);
